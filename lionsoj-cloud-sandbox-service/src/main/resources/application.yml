@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: lionsoj-cloud-sandbox-service
+  # 默认 dev 环境
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.103.75:8848
+  # 支持 swagger3
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  # session 配置
+  session:
+    store-type: redis
+    # 30 天过期
+    timeout: 2592000
+  # Redis 配置
+  redis:
+    database: 1
+    host: 192.168.103.75
+    port: 6379
+    timeout: 5000
+    password: lion0717
+  # 文件上传
+  servlet:
+    multipart:
+      # 大小限制
+      max-file-size: 10MB
+
+server:
+  address: 0.0.0.0
+  port: 8105
+  servlet:
+    context-path: /api/sandbox
+    # cookie 30 天过期
+    session:
+      cookie:
+        max-age: 2592000
+        path: /api
+
+knife4j:
+  enable: true

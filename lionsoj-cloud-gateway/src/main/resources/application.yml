@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: lionsoj-cloud-gateway
+  main:
+    web-application-type: reactive
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.103.75:8848
+    gateway:
+      routes:
+        - id: lionsoj-cloud-user-service
+          uri: lb://lionsoj-cloud-user-service
+          predicates:
+            - Path=/api/user/**
+        - id: lionsoj-cloud-question-service
+          uri: lb://lionsoj-cloud-question-service
+          predicates:
+            - Path=/api/question/**
+        - id: lionsoj-cloud-judge-service
+          uri: lb://lionsoj-cloud-judge-service
+          predicates:
+            - Path=/api/judge/**
+        - id: lionsoj-cloud-sandbox-service
+          uri: lb://lionsoj-cloud-sandbox-service
+          predicates:
+            - Path=/api/sandbox/**
+server:
+  port: 8101
+
+knife4j:
+  gateway:
+    # ① 第一个配置，开启gateway聚合组件
+    enabled: true
+    # ② 第二行配置，设置聚合模式采用discover服务发现的模式
+    strategy: discover
+    discover:
+      # ③ 第三行配置，开启discover模式
+      enabled: true
+      # ④ 第四行配置，聚合子服务全部为Swagger2规范的文档
+      version: swagger2
